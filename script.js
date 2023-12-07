@@ -4,17 +4,17 @@ const btnReset = document.getElementById('btn-reset');
 const content = document.getElementById('content');
 const conteinerResult = document.getElementById('result-style');
 const image = document.getElementById('img');
+// acessa os elementos do html através do objeto DOM, utilizando o método "getElementById"
+
 
 const fetchApi = (value) => {
   const result = fetch(`https://rickandmortyapi.com/api/character/${value}`)
   .then((res) => res.json())
-  .then((data) => {
-    console.log(data);
-    return data;
-  });
-
   return result;
 }
+// Criando uma Arrow Function, onde estamos acessando a API 'Rick and Morty' através do fetch criando um objeto Promisse
+// Onde que após concluido iremos encaminhar os dados a result pelo return
+
 
 const keys = ['name', 'status', 'species', 'gender', 'origin', 'episode'];
 const newKeys = {
@@ -25,20 +25,24 @@ const newKeys = {
   origin: 'Planeta de origem',
   episode: 'Episódios',
 }
+// iremos criar um array para inteirar cada elemento com o método map atribuindo um getDocumentById
 
 const buildResult = (result) => {
-  return keys.map((key) => document.getElementById(key))
-    .map((elem) => {
-      if(elem.checked === true && (Array.isArray(result[elem.name])) === true){
-        const arrayResult = result[elem.name].join('\r\n');
-        console.log(arrayResult);
+  return keys.map((key) => document.getElementById(key)).map((elem) => {
+// Iremos interagir com cada indice com o map, onde ambos irão receber um elemento pelo DOM
+// Após iremos usar map novamente para aplicar uma função onde
+console.log(elem.name);
+    if(elem.checked === true && (Array.isArray(result[elem.name])) === true){
+        const arrayResult = result[elem.name].join('');
         const newElem = document.createElement('p');
         newElem.innerHTML = `${newKeys[elem.name]}: ${arrayResult}`;
         content.appendChild(newElem);
+
       } else if(elem.checked === true && (elem.name === 'origin')){
         const newElem = document.createElement('p');
         newElem.innerHTML = `${newKeys[elem.name]}: ${result[elem.name].name}`;
         content.appendChild(newElem);
+
       } else if(elem.checked === true && typeof(result[elem.name]) !== 'object'){
         const newElem = document.createElement('p');
         newElem.innerHTML = `${newKeys[elem.name]}: ${result[elem.name]}`;
